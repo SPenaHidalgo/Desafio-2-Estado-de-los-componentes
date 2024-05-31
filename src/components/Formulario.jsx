@@ -1,107 +1,87 @@
-import React, { useState } from 'react'
-import Button from 'react-bootstrap/Button'
-import Form from 'react-bootstrap/Form'
+import { useState } from 'react'
+import { Form, Button } from 'react-bootstrap'
 
-const Formulario = ({ addAlert }) => {
-  const [inputs, setInputs] = useState({
-    nombre: '',
-    email: '',
-    password1: '',
-    password2: ''
-  })
+const Formulario = ({ handleAlert }) => {
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
 
-  const inputEntrantes = (a) => {
-    if (a.target.id === 'nombre') {
-      setInputs({ ...inputs, nombre: a.target.value })
-    }
-
-    if (a.target.id === 'email') {
-      setInputs({ ...inputs, email: a.target.value })
-    }
-
-    if (a.target.id === 'password1') {
-      setInputs({ ...inputs, password1: a.target.value })
-    }
-    if (a.target.id === 'password2') {
-      setInputs({ ...inputs, password2: a.target.value })
-    }
+  const validateEmail = (email) => {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.(com|cl|org|net|edu|gov|mil|co|info|biz|me|io|dev)$/i
+    return emailPattern.test(String(email).toLowerCase())
   }
 
-  const validadorInputs = (a) => {
-    a.preventDefault()
-
+  const validateName = (name) => {
     const isValidNombre = /^[a-zA-Z0-9]{3,}$/
-    const isValidEmail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
+    return isValidNombre.test(String(name).toLowerCase())
+  }
+
+  const validatePassword = (password) => {
     const isValidPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{6,}$/
+    return isValidPassword.test(String(password))
+  }
 
-    const alert = inputs.nombre.trim() === '' || inputs.email === '' || inputs.password1 === '' || inputs.password2 === ''
+  const handleSubmit = (e) => {
+    e.preventDefault()
 
-      ? { texto: 'Por favor, completa todos los campos', tipo: 'alert-danger', estado: true }
-      : !isValidNombre.test(inputs.nombre)
+    if (!name || !email || !password || !confirmPassword) {
+      handleAlert('Todos los campos son obligatorio', 'danger')
+      return
+    }
 
-          ? { texto: 'El Nombre debe tener un mínimo de 3 caracteres. No se permiten caracteres especiales.', tipo: 'alert-danger', estado: true }
-          : !isValidEmail.test(inputs.email)
+    if (!validateName(name)) {
+      handleAlert('El nombre debe tener más de 3 caracteres', 'danger')
+      setName('')
+      return
+    }
 
-              ? { texto: 'Formato de email incorrecto', tipo: 'alert-danger', estado: true }
-              : !isValidPassword.test(inputs.password1)
+    if (!validateEmail(email)) {
+      handleAlert('El formato del email es incorrecto', 'danger')
+      setEmail('')
+      return
+    }
 
-                  ? { texto: 'La contraseña debe tener mínimo 6 caracteres, una letra mayúscula, una letra minúscula y un número', tipo: 'alert-danger', estado: true }
-                  : inputs.password1 !== inputs.password2
+    if (!validatePassword(password)) {
+      handleAlert('La contraseña debe ser de 6 caracteres, contener una mayuscula y un número', 'danger')
+      setPassword('')
+      return
+    }
 
-                    ? { texto: 'Las contraseñas no coinciden. Intenta otra vez', tipo: 'alert-danger', estado: true }
-                    : { texto: '¡Cuenta creada con éxito!', tipo: 'alert-success', estado: true }
+    if (password !== confirmPassword) {
+      handleAlert('Las contraseñas no coinciden', 'danger')
+      setPassword('')
+      setConfirmPassword('')
+      return
+    }
 
-    addAlert(alert)
+    handleAlert('Registro exitoso', 'success')
   }
 
   return (
-    <>
-      <Form onSubmit={(a) => validadorInputs(a)}>
-        <Form.Group className='mb-3'>
-          <Form.Control
-            onChange={(a) => inputEntrantes(a)}
-            id='nombre'
-            name='Nombre'
-            type='text'
-            placeholder='Nombre'
-          />
-        </Form.Group>
-
-        <Form.Group className='mb-3'>
-          <Form.Control
-            onChange={(a) => inputEntrantes(a)}
-            id='email'
-            name='Email'
-            type='email'
-            placeholder='anotaunemail@ejemplo.com'
-          />
-        </Form.Group>
-
-        <Form.Group className='mb-3'>
-          <Form.Control
-            onChange={(a) => inputEntrantes(a)}
-            id='password1'
-            name='password1'
-            type='password'
-            placeholder='Contraseña'
-          />
-        </Form.Group>
-
-        <Form.Group className='mb-3'>
-          <Form.Control
-            onChange={(a) => inputEntrantes(a)}
-            id='password2'
-            name='password2'
-            type='password'
-            placeholder='Confirma tu contraseña'
-          />
-        </Form.Group>
-
-        <Button variant='success w-100' type='submit'>
+    <Form className='bg-dark p-5' onSubmit={handleSubmit} noValidate>
+      <Form.Group className='mb-3'>
+        <Form.Label className='text-white'>Nombre</Form.Label>
+        <Form.Control type='text' value={name} onChange={(e) => setName(e.target.value)} />
+      </Form.Group>
+      <Form.Group className='mb-3'>
+        <Form.Label className='text-white'>Email</Form.Label>
+        <Form.Control type='email' value={email} onChange={(e) => setEmail(e.target.value)} />
+      </Form.Group>
+      <Form.Group className='mb-3'>
+        <Form.Label className='text-white'>Contraseña</Form.Label>
+        <Form.Control type='password' value={password} onChange={(e) => setPassword(e.target.value)} />
+      </Form.Group>
+      <Form.Group className='mb-3'>
+        <Form.Label className='text-white'>Confirmar Contraseña</Form.Label>
+        <Form.Control type='password' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+      </Form.Group>
+      <div className='d-grid gap-2 pt-2'>
+        <Button variant='success' type='submit'>
           Registrarse
         </Button>
-      </Form>
-    </>
+      </div>
+    </Form>
   )
 }
 
