@@ -1,5 +1,11 @@
+import Register from './components/Register'
+
 function App () {
-  return (0)
+  return (
+    <div className='App'>
+      <Register />
+    </div>
+  )
 }
 
 export default App
