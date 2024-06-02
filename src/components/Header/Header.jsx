@@ -1,11 +1,11 @@
 const Header = () => {
   return (
-<div>
-      <header className='header-css'>
-        <h1>Desafio 2 - Estado de los Componentes</h1>
+    <div>
+      <header className='d-flex justify-content-center bg-success p-3'>
+        <h1 className='text-white'>Desafio 2 - Estado de los Componentes</h1>
       </header>
-      <h2 className='subtitle-css'>Ejercicio</h2>
-    </div>  )
+    </div>
+  )
 }
 
 export default Header

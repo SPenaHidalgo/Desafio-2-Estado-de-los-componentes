@@ -10,8 +10,8 @@ const icons = {
 
 const SocialButton = ({ platform }) => {
   return (
-    <Button>
-      <FontAwesomeIcon icon={icons[platform]} size='1x' />
+    <Button variant='outline-success' className='mx-1'>
+      <FontAwesomeIcon icon={icons[platform]} />
     </Button>
   )
 }

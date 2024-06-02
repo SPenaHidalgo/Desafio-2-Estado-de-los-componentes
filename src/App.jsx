@@ -1,10 +1,16 @@
 import Register from './components/Register'
+import Header from './components/Header/Header'
+import Footer from './components/Footer/Footer'
 
 function App () {
   return (
-    <div className='App'>
-      <Register />
-    </div>
+    <>
+      <Header />
+      <div className='pb-5'>
+        <Register />
+      </div>
+      <Footer />
+    </>
   )
 }
 

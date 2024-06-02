@@ -13,10 +13,10 @@ const Register = () => {
 
   return (
     <Container>
-      <Row className='justify-content-md-center'>
+      <Row className='justify-content-md-center m-3'>
         <Col md='6'>
-          <h1 className='text-center'>Registro</h1>
-          <div className='d-flex justify-content-around my-3'>
+          <h1 className='text-center text-dark'>Registro</h1>
+          <div className='my-3'>
             <SocialButton platform='facebook' />
             <SocialButton platform='twitter' />
             <SocialButton platform='linkedin' />

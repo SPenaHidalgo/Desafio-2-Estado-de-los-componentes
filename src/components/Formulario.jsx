@@ -27,6 +27,7 @@ const Formulario = ({ handleAlert }) => {
 
     if (!name || !email || !password || !confirmPassword) {
       handleAlert('Todos los campos son obligatorio', 'danger')
+
       return
     }
 
